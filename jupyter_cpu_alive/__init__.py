@@ -6,7 +6,7 @@ from tornado.ioloop import IOLoop, PeriodicCallback
 import psutil
 from functools import partial
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 
 async def update_last_activity(settings, logger, percent_min=70):
@@ -36,7 +36,14 @@ def _jupyter_server_extension_points():
 
 def load_jupyter_server_extension(nb_app):
     # minimum cpu percentage
-    percent_min = os.environ.get('JUPYTER_CPU_ALIVE_PERCENT_MIN', 70)
+    default_percent_min = 70
+    try:
+        percent_min = os.environ.get('JUPYTER_CPU_ALIVE_PERCENT_MIN', 70)
+        percent_min = float(percent_min)
+    except ValueError:
+        nb_app.log.info(f'jupyter_cpu_alive: JUPYTER_CPU_ALIVE_PERCENT_MIN cannot be converted to a float; using {default_percent_min}')
+        percent_min = default_percent_min
+
     # interval in seconds; default is 5 min
     default_interval = 5*60
     try:
@@ -45,6 +52,7 @@ def load_jupyter_server_extension(nb_app):
     except ValueError:
         nb_app.log.info(f'jupyter_cpu_alive: JUPYTER_CPU_ALIVE_INTERVAL cannot be converted to a float; using {default_interval}')
         interval = default_interval
+
     func = partial(
         update_last_activity,
         settings=nb_app.web_app.settings,
