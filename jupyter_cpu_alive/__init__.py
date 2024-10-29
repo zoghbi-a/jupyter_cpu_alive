@@ -21,8 +21,6 @@ async def update_last_activity(settings, logger, percent_min=70):
         Minimum CPU activity to consider as running.
     """
     # consider individual cpu's separately
-    #cpu_active = [cpu>percent_min for cpu in psutil.cpu_percent(percpu=True)]
-    #isactive = any(cpu_active)
     isactive = sum(psutil.cpu_percent(percpu=True)) > percent_min
     text = f"jupyter_cpu_alive activity: {isactive}"    
     if isactive:
@@ -39,15 +37,14 @@ def _jupyter_server_extension_points():
 def load_jupyter_server_extension(nb_app):
     # minimum cpu percentage
     percent_min = os.environ.get('JUPYTER_CPU_ALIVE_PERCENT_MIN', 70)
-    # interval in seconds; default is 10 min
-    default_interval = 10*60
+    # interval in seconds; default is 5 min
+    default_interval = 5*60
     try:
         interval = os.environ.get('JUPYTER_CPU_ALIVE_INTERVAL', default_interval)
         interval = float(interval)
     except ValueError:
         nb_app.log.info(f'jupyter_cpu_alive: JUPYTER_CPU_ALIVE_INTERVAL cannot be converted to a float; using {default_interval}')
         interval = default_interval
-    interval = 30
     func = partial(
         update_last_activity,
         settings=nb_app.web_app.settings,

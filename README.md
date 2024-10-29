@@ -8,4 +8,4 @@ Then run jupyterlab.
 
 The extension is configured with two environment variables:
 - `JUPYTER_CPU_ALIVE_PERCENT_MIN` defines the minimum CPU activity, above which the CPU is considered active. The default is 70%.
-- `JUPYTER_CPU_ALIVE_INTERVAL` gives the interval in second for checking for activity and updating the `api_last_activity`.
+- `JUPYTER_CPU_ALIVE_INTERVAL` gives the interval in second for checking for activity and updating the `api_last_activity`. The default is 5 min
