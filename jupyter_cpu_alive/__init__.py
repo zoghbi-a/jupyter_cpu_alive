@@ -40,7 +40,7 @@ def load_jupyter_server_extension(nb_app):
     # minimum cpu percentage
     percent_min = os.environ.get('JUPYTER_CPU_ALIVE_PERCENT_MIN', 70)
     # interval in seconds; default is 10 min
-    default_interval = 10*60
+    default_interval = 30
     try:
         interval = os.environ.get('JUPYTER_CPU_ALIVE_INTERVAL', default_interval)
         interval = float(interval)
