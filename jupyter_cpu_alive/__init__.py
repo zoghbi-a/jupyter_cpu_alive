@@ -29,7 +29,7 @@ async def update_last_activity(settings, logger, percent_min=70):
         text += f'; activity updated to: {now}'
     else:
         if 'api_last_activity' in settings.keys():
-            text += f"; last updated: settings['api_last_activity']"
+            text += f"; last updated: {settings['api_last_activity']}"
     logger.info(text)
 
 def _jupyter_server_extension_points():
