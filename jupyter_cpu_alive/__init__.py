@@ -6,7 +6,7 @@ from tornado.ioloop import PeriodicCallback
 import psutil
 from functools import partial
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 
 async def update_last_activity(settings, logger, percent_min=70):
@@ -26,7 +26,7 @@ async def update_last_activity(settings, logger, percent_min=70):
     sep = '\n    '
     if isactive:
         now = utcnow()
-        settings['api_last_activity'] = now
+        settings['last_activity_times']['cpu-activity'] = now
         text += f'{sep}activity updated to: {now}'
     # log all settings that have 'activity' in the key
     for key in settings.keys():
