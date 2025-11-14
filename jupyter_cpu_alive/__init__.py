@@ -23,13 +23,15 @@ async def update_last_activity(settings, logger, percent_min=70):
     # consider individual cpu's separately
     isactive = sum(psutil.cpu_percent(percpu=True)) > percent_min
     text = f"jupyter_cpu_alive activity: {isactive}"
+    sep = '\n    '
     if isactive:
         now = utcnow()
         settings['api_last_activity'] = now
-        text += f'; activity updated to: {now}'
-    else:
-        if 'api_last_activity' in settings.keys():
-            text += f"; last updated: {settings['api_last_activity']}"
+        text += f'{sep}activity updated to: {now}'
+    # log all settings that have 'activity' in the key
+    for key in settings.keys():
+        if 'activity' in key:
+            text += f'{sep}{key}: {settings[key]}'
     logger.info(text)
 
 
