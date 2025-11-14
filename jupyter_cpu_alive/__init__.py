@@ -6,7 +6,7 @@ from tornado.ioloop import PeriodicCallback
 import psutil
 from functools import partial
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 
 async def update_last_activity(settings, logger, percent_min=70):
